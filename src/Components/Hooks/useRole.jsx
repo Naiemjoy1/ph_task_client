@@ -10,7 +10,7 @@ const useRole = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`http://localhost:3000/user/${user.email}`)
+        .get(`https://ph-task-server-six.vercel.app/user/${user.email}`)
         .then((response) => {
           setUserType(response.data.userType);
           setLoadingRole(false);

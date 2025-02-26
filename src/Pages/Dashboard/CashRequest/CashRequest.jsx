@@ -50,7 +50,7 @@ const CashRequest = () => {
 
       if (confirmResult.isConfirmed) {
         const response = await axiosSecure.post(
-          "http://localhost:3000/cash-request",
+          "https://ph-task-server-six.vercel.app/cash-request",
           {
             senderEmail: user.email,
             receiverIdentifier: data.receiverIdentifier,

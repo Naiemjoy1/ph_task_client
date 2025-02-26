@@ -5,7 +5,7 @@ import useLogs from "../../../Components/Hooks/useLogs";
 
 const Modal = () => {
   const { user } = useAuth();
-  const [logs] = useLogs();
+  const { logs } = useLogs();
   const axiosSecure = useAxiosSecure();
 
   const request = logs.filter(

@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaUserLargeSlash } from "react-icons/fa6";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
 import useUsers from "../../../Components/Hooks/useUsers";
+import logo from "../../../assets/Images/logo/logo.png";
 
 const UserManagement = () => {
-  const { users, refetchUsers, loading } = useUsers();
+  const { users, refetchUsers } = useUsers();
   const axiosSecure = useAxiosSecure();
   const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const [progress, setProgress] = useState(1);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setLoading(false);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleDelete = (user) => {
     Swal.fire({
@@ -78,8 +97,22 @@ const UserManagement = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
       />
       {loading ? (
-        <div className="flex justify-center items-center h-full">
-          <span className="loading loading-ring loading-lg text-primary"></span>
+        <div className="flex items-center justify-center h-[50vh]">
+          <div className="relative bg-black rounded-full">
+            <div
+              className="radial-progress text-primary"
+              style={{
+                "--value": progress,
+                "--size": "150px",
+                "--thickness": "10px",
+              }}
+            ></div>
+            <img
+              src={logo}
+              alt="Logo"
+              className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12"
+            />
+          </div>
         </div>
       ) : (
         <div className="overflow-x-auto">

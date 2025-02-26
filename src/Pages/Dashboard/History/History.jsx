@@ -1,11 +1,13 @@
 import moment from "moment";
+import { useEffect, useState } from "react";
 import useAuth from "../../../Components/Hooks/useAuth";
 import useLogs from "../../../Components/Hooks/useLogs";
 import useRole from "../../../Components/Hooks/useRole";
+import logo from "../../../assets/Images/logo/logo.png";
 
 const History = () => {
   const { user } = useAuth();
-  const { logs, loading } = useLogs();
+  const { logs } = useLogs();
   const [userRole] = useRole();
   const limit = 100;
 
@@ -22,14 +24,47 @@ const History = () => {
       .slice(0, limit);
   }
 
+  const [loading, setLoading] = useState(true);
+
+  const [progress, setProgress] = useState(1);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setLoading(false);
+          return 100;
+        }
+        return prev + 2;
+      });
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="relative p-10">
       <p className="text-center text-2xl font-bold text-primary uppercase">
         History
       </p>
       {loading ? (
-        <div className="flex justify-center items-center h-full">
-          <span className="loading loading-ring loading-lg text-primary"></span>
+        <div className="flex items-center justify-center h-[50vh]">
+          <div className="relative bg-black rounded-full">
+            <div
+              className="radial-progress text-primary"
+              style={{
+                "--value": progress,
+                "--size": "150px",
+                "--thickness": "10px",
+              }}
+            ></div>
+            <img
+              src={logo}
+              alt="Logo"
+              className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-12"
+            />
+          </div>
         </div>
       ) : (
         <>

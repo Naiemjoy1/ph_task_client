@@ -1,11 +1,11 @@
 import Swal from "sweetalert2";
 import useAuth from "../../../Components/Hooks/useAuth";
-import useLogs from "../../../Components/Hooks/useLogs";
 import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
+import useLogs from "../../../Components/Hooks/useLogs";
 
 const Modal = () => {
   const { user } = useAuth();
-  const [logs] = useLogs();
+  const { logs } = useLogs();
   const axiosSecure = useAxiosSecure();
 
   const request = logs.filter(

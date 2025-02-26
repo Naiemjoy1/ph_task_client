@@ -1,31 +1,36 @@
 import { useEffect, useState } from "react";
+import logo from "../../../assets/Images/logo/logo.png";
 import useAuth from "../../../Components/Hooks/useAuth";
 import useIncome from "../../../Components/Hooks/useIncome";
 import useRole from "../../../Components/Hooks/useRole";
+import useTransfer from "../../../Components/Hooks/useTransfer";
 import useUsers from "../../../Components/Hooks/useUsers";
-import logo from "../../../assets/Images/logo/logo.png";
 
 const Profile = () => {
   const { user } = useAuth();
   const { users } = useUsers();
   const [userRole] = useRole();
   const [income] = useIncome();
-  const [isBalanceVisible, setIsBalanceVisible] = useState(false);
+  const { transfers } = useTransfer();
 
   const currentUser = users.find((u) => u.email === user.email);
   const isOnline = currentUser?.status === "active";
 
-  const toggleBalanceVisibility = () => {
-    setIsBalanceVisible(!isBalanceVisible);
+  const [visibleSection, setVisibleSection] = useState(null);
+
+  const handleToggle = (section) => {
+    setVisibleSection((prevSection) =>
+      prevSection === section ? null : section
+    );
   };
 
   const showIncome = userRole === "admin" || userRole === "agent";
+  const showSystemBalance = userRole === "admin";
 
   const userIncome = income.find((inc) => inc.receiver === user.email);
   const totalIncome = userIncome ? userIncome.totalAmount : 0;
 
   const [loading, setLoading] = useState(true);
-
   const [progress, setProgress] = useState(1);
 
   useEffect(() => {
@@ -84,26 +89,57 @@ const Profile = () => {
               <p className="text-xl font-bold">{currentUser?.name}</p>
               <p>Mobile: {currentUser?.mobile}</p>
               <p>Email: {currentUser?.email}</p>
-              <p onClick={toggleBalanceVisibility} className="cursor-pointer">
+
+              <p
+                onClick={() => handleToggle("balance")}
+                className="cursor-pointer"
+              >
                 Balance:
                 <span
                   className={`ml-2 ${
-                    isBalanceVisible ? "text-white" : "blur-sm"
+                    visibleSection === "balance" ? "text-white" : "blur-sm"
                   }`}
                 >
-                  {isBalanceVisible ? currentUser?.balance : "******"}
+                  {visibleSection === "balance"
+                    ? currentUser?.balance.toFixed(2)
+                    : "******"}
                 </span>
               </p>
 
               {showIncome && (
-                <p onClick={toggleBalanceVisibility} className="cursor-pointer">
+                <p
+                  onClick={() => handleToggle("income")}
+                  className="cursor-pointer"
+                >
                   Income:
                   <span
                     className={`ml-2 ${
-                      isBalanceVisible ? "text-white" : "blur-sm"
+                      visibleSection === "income" ? "text-white" : "blur-sm"
                     }`}
                   >
-                    {isBalanceVisible ? totalIncome.toFixed(2) : "******"}
+                    {visibleSection === "income"
+                      ? totalIncome.toFixed(2)
+                      : "******"}
+                  </span>
+                </p>
+              )}
+
+              {showSystemBalance && (
+                <p
+                  onClick={() => handleToggle("systemBalance")}
+                  className="cursor-pointer"
+                >
+                  System Balance:
+                  <span
+                    className={`ml-2 ${
+                      visibleSection === "systemBalance"
+                        ? "text-white"
+                        : "blur-sm"
+                    }`}
+                  >
+                    {visibleSection === "systemBalance"
+                      ? transfers?.grandTotal?.toFixed(2) ?? "0.00"
+                      : "******"}
                   </span>
                 </p>
               )}

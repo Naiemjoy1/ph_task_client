@@ -100,15 +100,15 @@ const Registration = () => {
           <>
             <div className="absolute inset-x-0 top-5 lg:w-1/3 mx-auto flex justify-center items-center gap-5 bg-[#eff3f4] py-5 rounded-lg shadow-md">
               <a
-                href="https://github.com/Naiemjoy1/mfs-client"
+                href="https://github.com/Naiemjoy1/ph_task_client"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline "
+                className="text-primary  hover:underline"
               >
                 GitHub Client Side
               </a>
               <a
-                href="https://github.com/Naiemjoy1/mfs-server"
+                href="https://github.com/Naiemjoy1/ph_task_server"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary  hover:underline"

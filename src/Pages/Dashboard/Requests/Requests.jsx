@@ -5,7 +5,7 @@ import useLogs from "../../../Components/Hooks/useLogs";
 
 const Requests = () => {
   const { user } = useAuth();
-  const [logs] = useLogs();
+  const { logs, refetchLogs } = useLogs();
   const axiosSecure = useAxiosSecure();
 
   const request = logs.filter(
@@ -26,7 +26,7 @@ const Requests = () => {
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
-          window.location.reload();
+          refetchLogs();
         });
       } else {
         Swal.fire({
@@ -66,7 +66,7 @@ const Requests = () => {
               showConfirmButton: false,
               timer: 1500,
             }).then(() => {
-              window.location.reload();
+              refetchLogs();
             });
           } else {
             console.error("Failed to delete request:", response.data.message);

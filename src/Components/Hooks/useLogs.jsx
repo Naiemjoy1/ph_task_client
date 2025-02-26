@@ -1,25 +1,22 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 
 const useLogs = () => {
   const axiosSecure = useAxiosSecure();
-  const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    axiosSecure
-      .get("/history")
-      .then((response) => {
-        setLogs(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching logs:", error);
-        setLoading(false);
-      });
-  }, [axiosSecure]);
+  const {
+    data: logs = [],
+    isLoading: loading,
+    refetch: refetchLogs,
+  } = useQuery({
+    queryKey: ["logs"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/history");
+      return res.data;
+    },
+  });
 
-  return [logs, loading];
+  return { logs, loading, refetchLogs };
 };
 
 export default useLogs;

@@ -5,7 +5,7 @@ import useRole from "../../../Components/Hooks/useRole";
 
 const History = () => {
   const { user } = useAuth();
-  const [logs, loading] = useLogs();
+  const { logs, loading } = useLogs();
   const [userRole] = useRole();
   const limit = 100;
 

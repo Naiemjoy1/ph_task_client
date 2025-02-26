@@ -75,7 +75,7 @@ const SendMoney = () => {
 
       if (confirmResult.isConfirmed) {
         const response = await axiosSecure.post(
-          "https://ph-task-server-six.vercel.app/send-money",
+          "http://localhost:3000/send-money",
           {
             senderEmail: user.email,
             receiverIdentifier: data.receiverIdentifier,

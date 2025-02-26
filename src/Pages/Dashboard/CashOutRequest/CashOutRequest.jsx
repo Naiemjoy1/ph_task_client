@@ -44,7 +44,7 @@ const CashOutRequest = () => {
 
       if (confirmResult.isConfirmed) {
         const response = await axiosSecure.post(
-          "https://ph-task-server-six.vercel.app/cash-out-request",
+          "http://localhost:3000/cash-out-request",
           {
             senderEmail: user.email,
             receiverIdentifier: data.receiverIdentifier,

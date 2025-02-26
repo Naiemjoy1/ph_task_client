@@ -55,7 +55,7 @@ const Profile = () => {
           <div className="flex items-center justify-center h-[50vh]">
             <div className="relative bg-black rounded-full">
               <div
-                className="radial-progress text-primary"
+                className="radial-progress text-white"
                 style={{
                   "--value": progress,
                   "--size": "150px",

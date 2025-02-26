@@ -10,7 +10,7 @@ const useStatus = () => {
   useEffect(() => {
     if (user) {
       axios
-        .get(`https://ph-task-server-six.vercel.app/user/${user.email}`)
+        .get(`http://localhost:3000/user/${user.email}`)
         .then((response) => {
           setUserStatus(response.data.status);
           setLoading(false);
